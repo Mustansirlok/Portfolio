@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mustansir Lokhandwala — Network Technician</title>
+<meta name="description" content="Mustansir Lokhandwala — Entry-level Network Technician / IT Support, CCNA in progress. Toronto, ON.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0A0E13;
+    --bg-1:#10161D;
+    --bg-2:#161D26;
+    --line:#1F2A35;
+    --line-bright:#2C3A47;
+    --text-0:#E6EDF3;
+    --text-1:#8FA0AD;
+    --text-2:#5C6B78;
+    --signal:#4FD1C5;
+    --signal-dim: rgba(79,209,197,0.15);
+    --amber:#F0A868;
+    --amber-dim: rgba(240,168,104,0.15);
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-0);
+    color:var(--text-0);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--signal-dim); color:var(--signal);}
+
+  /* background grid texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:0.35;
+    pointer-events:none;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 70%);
+    z-index:0;
+  }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+  .mono{font-family:var(--font-mono);}
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em;
+    color:var(--signal); text-transform:uppercase; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 8px var(--signal);}
+
+  /* ===== NAV ===== */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(10,14,19,0.75);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:var(--font-mono); font-size:14px; color:var(--text-0); display:flex; align-items:center; gap:8px;}
+  .brand .dot{width:7px; height:7px; border-radius:50%; background:var(--signal); box-shadow:0 0 8px var(--signal); animation:pulse 2.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.4;}}
+  .navlinks{display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; color:var(--text-1);}
+  .navlinks a{transition:color 0.2s;}
+  .navlinks a:hover{color:var(--signal);}
+  @media (max-width:640px){ .navlinks{display:none;} }
+
+  /* ===== HERO ===== */
+  header.hero{padding:96px 0 64px; position:relative;}
+  .status-line{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-1);
+    border:1px solid var(--line); background:var(--bg-1);
+    padding:6px 12px; border-radius:100px; margin-bottom:28px;
+  }
+  .status-line .dot{width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 6px var(--signal);}
+  h1.title{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(36px, 6vw, 64px); line-height:1.05; letter-spacing:-0.02em;
+    color:var(--text-0); margin-bottom:18px;
+  }
+  h1.title .last{color:var(--text-1);}
+  .tagline{
+    font-size:19px; color:var(--text-1); max-width:560px; margin-bottom:36px; font-weight:400;
+  }
+  .tagline b{color:var(--text-0); font-weight:600;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:64px;}
+  .btn{
+    font-family:var(--font-mono); font-size:13px; padding:12px 20px; border-radius:6px;
+    border:1px solid var(--line-bright); transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--signal); color:#06201D; border-color:var(--signal); font-weight:600;}
+  .btn-primary:hover{background:#6EE2D6; transform:translateY(-1px);}
+  .btn-ghost{color:var(--text-0); background:var(--bg-1);}
+  .btn-ghost:hover{border-color:var(--signal); color:var(--signal);}
+
+  /* traceroute signature element */
+  .trace{
+    border:1px solid var(--line); background:var(--bg-1); border-radius:10px;
+    padding:24px 28px; overflow-x:auto;
+  }
+  .trace-head{
+    font-family:var(--font-mono); font-size:11px; color:var(--text-2);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:18px;
+    display:flex; justify-content:space-between;
+  }
+  .trace-path{position:relative; padding-left:2px;}
+  .hop{
+    display:grid; grid-template-columns:28px 1fr auto; align-items:center;
+    gap:16px; position:relative; padding:12px 0;
+  }
+  .hop:not(:last-child)::after{
+    content:""; position:absolute; left:13px; top:38px; bottom:-12px;
+    width:1px; background:var(--line-bright);
+  }
+  .hop-n{
+    font-family:var(--font-mono); font-size:11px; color:var(--bg-0);
+    width:26px; height:26px; border-radius:50%; background:var(--text-2);
+    display:flex; align-items:center; justify-content:center; z-index:1;
+  }
+  .hop.done .hop-n{background:var(--signal); color:#06201D;}
+  .hop.active .hop-n{background:var(--amber); color:#241505; animation:pulse 1.6s ease-in-out infinite;}
+  .hop-label{font-family:var(--font-mono); font-size:13.5px;}
+  .hop-label .host{color:var(--text-0);}
+  .hop-label .role{color:var(--text-2); font-size:12px; display:block; margin-top:2px;}
+  .hop-ms{font-family:var(--font-mono); font-size:12px; color:var(--text-2);}
+  .hop.done .hop-ms{color:var(--signal);}
+  .hop.active .hop-ms{color:var(--amber);}
+
+  /* ===== SECTION SHARED ===== */
+  section{padding:88px 0; border-top:1px solid var(--line);}
+  .section-head{margin-bottom:48px; display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  h2.h{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.4vw,32px);
+    color:var(--text-0); letter-spacing:-0.01em;
+  }
+  .section-sub{font-family:var(--font-mono); font-size:12px; color:var(--text-2);}
+
+  /* ===== INTERFACES (skills) ===== */
+  .iface-table{border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .iface-row{
+    display:grid; grid-template-columns:150px 1fr; align-items:center;
+    gap:16px; padding:16px 20px; border-bottom:1px solid var(--line);
+    background:var(--bg-1); transition:background 0.2s;
+  }
+  .iface-row:last-child{border-bottom:none;}
+  .iface-row:hover{background:var(--bg-2);}
+  .iface-name{font-family:var(--font-mono); font-size:13px; color:var(--signal);}
+  .iface-desc{font-size:14.5px; color:var(--text-1);}
+  .iface-desc b{color:var(--text-0); font-weight:500;}
+  .iface-tags{font-family:var(--font-mono); font-size:11px; color:var(--text-2); display:none;}
+  @media (min-width:720px){ .iface-tags{display:block;} .iface-row{grid-template-columns:150px 1fr 200px;} }
+  @media (max-width:560px){ .iface-row{grid-template-columns:1fr;} .iface-desc{order:3;} .iface-tags{display:none;} }
+
+  /* ===== PROJECTS ===== */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:20px;}
+  .card{
+    border:1px solid var(--line); background:var(--bg-1); border-radius:10px;
+    padding:26px; display:flex; flex-direction:column; gap:14px; transition:all 0.25s;
+    position:relative; overflow:hidden;
+  }
+  .card:hover{border-color:var(--line-bright); transform:translateY(-2px); background:var(--bg-2);}
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+  .card-tag{font-family:var(--font-mono); font-size:10.5px; color:var(--amber); background:var(--amber-dim); padding:4px 9px; border-radius:100px; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;}
+  .card h3{font-family:var(--font-display); font-size:18px; font-weight:600; color:var(--text-0); line-height:1.3;}
+  .card p{font-size:14px; color:var(--text-1); line-height:1.6; flex:1;}
+  .card-stack{display:flex; flex-wrap:wrap; gap:6px; font-family:var(--font-mono); font-size:11px; color:var(--text-2);}
+  .card-stack span{border:1px solid var(--line); padding:3px 8px; border-radius:4px;}
+  .card-link{font-family:var(--font-mono); font-size:12.5px; color:var(--signal); display:flex; align-items:center; gap:6px; margin-top:4px;}
+  .card-link:hover{text-decoration:underline;}
+  .card.featured{grid-column:1/-1; background:linear-gradient(135deg, var(--bg-1), var(--bg-2)); border-color:var(--line-bright);}
+  .card.featured .card-top{flex-direction:row;}
+
+  /* home lab diagram */
+  .lab-layout{display:grid; grid-template-columns:1fr; gap:32px;}
+  @media(min-width:860px){ .lab-layout{grid-template-columns:1fr 1fr;} }
+  .diagram{border:1px solid var(--line); border-radius:10px; background:var(--bg-0); padding:20px;}
+  .diagram svg{width:100%; height:auto; display:block;}
+  .lab-specs{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:20px;}
+  .spec{background:var(--bg-1); padding:16px 18px;}
+  .spec .k{font-family:var(--font-mono); font-size:10.5px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  .spec .v{font-family:var(--font-mono); font-size:13.5px; color:var(--signal);}
+
+  /* ===== EXPERIENCE — routing table ===== */
+  .rt-table{border:1px solid var(--line); border-radius:10px; overflow:hidden; font-family:var(--font-mono);}
+  .rt-head{
+    display:grid; grid-template-columns:130px 1fr 130px; gap:16px; padding:12px 20px;
+    background:var(--bg-2); font-size:10.5px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.06em; border-bottom:1px solid var(--line);
+  }
+  .rt-row{display:grid; grid-template-columns:130px 1fr 130px; gap:16px; padding:20px; border-bottom:1px solid var(--line); background:var(--bg-1); align-items:start;}
+  .rt-row:last-child{border-bottom:none;}
+  .rt-dest{font-size:13px; color:var(--signal);}
+  .rt-via b{font-family:var(--font-body); color:var(--text-0); font-size:15px; font-weight:600; display:block; margin-bottom:6px;}
+  .rt-via p{font-family:var(--font-body); font-size:13.5px; color:var(--text-1); line-height:1.6;}
+  .rt-metric{font-size:11.5px; color:var(--text-2); text-align:right;}
+  @media(max-width:640px){ .rt-head{display:none;} .rt-row{grid-template-columns:1fr; gap:8px;} .rt-metric{text-align:left;} }
+
+  /* ===== CONTACT / FOOTER ===== */
+  footer{padding:80px 0 48px; border-top:1px solid var(--line);}
+  .contact-panel{
+    border:1px solid var(--line-bright); border-radius:14px; padding:48px;
+    background:radial-gradient(circle at 20% 20%, rgba(79,209,197,0.08), transparent 60%), var(--bg-1);
+    text-align:center; margin-bottom:56px;
+  }
+  .contact-panel h2{font-family:var(--font-display); font-size:clamp(26px,4vw,38px); margin-bottom:14px; letter-spacing:-0.01em;}
+  .contact-panel p{color:var(--text-1); max-width:480px; margin:0 auto 32px; font-size:15.5px;}
+  .contact-links{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
+  .foot-bottom{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; font-family:var(--font-mono); font-size:11.5px; color:var(--text-2);}
+
+  @media(prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> Mustansir Lokhandwala</div>
+    <div class="navlinks">
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#homelab">Home Lab</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="status-line"><span class="dot"></span> north-york, on · open-to-work · ccna::in-progress</div>
+    <h1 class="title">Mustansir<br>Lokhandwala<span class="last"></span></h1>
+    <p class="tagline">Entry-level <b>Network Technician</b> and <b>IT Support</b> specialist. Grounded in hands-on lab work — Cisco routing and switching, Active Directory, and packet-level diagnostics — not just theory.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">get in touch</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/mustansirlokhandwala-362b562b0" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn btn-ghost" href="https://github.com/Mustansirlok" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+
+    <div class="trace">
+      <div class="trace-head"><span>Career path</span></div>
+      <div class="trace-path">
+        <div class="hop done">
+          <div class="hop-n">1</div>
+          <div class="hop-label"><span class="host">Loyalist College</span><span class="role">Diploma, Computer Systems — Dean's List</span></div>
+          <div class="hop-ms">2023–2025</div>
+        </div>
+        <div class="hop done">
+          <div class="hop-n">2</div>
+          <div class="hop-label"><span class="host">Independent lab work</span><span class="role">CCNA study, Active Directory, Packet Tracer builds</span></div>
+          <div class="hop-ms">ongoing</div>
+        </div>
+        <div class="hop active">
+          <div class="hop-n">3</div>
+          <div class="hop-label"><span class="host">Next role</span><span class="role">Entry-level Network Technician or IT Support</span></div>
+          <div class="hop-ms">open</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h">Skills</h2>
+    </div>
+    <div class="iface-table">
+      <div class="iface-row">
+        <span class="iface-name">Routing &amp; switching</span>
+        <span class="iface-desc"><b>Switching &amp; routing</b> — VLANs, trunking, inter-VLAN routing, OSPF &amp; static/RIP fundamentals</span>
+        <span class="iface-tags">Cisco Packet Tracer</span>
+      </div>
+      <div class="iface-row">
+        <span class="iface-name">Diagnostics</span>
+        <span class="iface-desc"><b>Diagnostics</b> — packet capture and traffic analysis, connectivity troubleshooting</span>
+        <span class="iface-tags">Wireshark</span>
+      </div>
+      <div class="iface-row">
+        <span class="iface-name">Systems admin</span>
+        <span class="iface-desc"><b>Systems administration</b> — user &amp; service management, log inspection, remote access</span>
+        <span class="iface-tags">Linux, Windows, RDP</span>
+      </div>
+      <div class="iface-row">
+        <span class="iface-name">Scripting &amp; data</span>
+        <span class="iface-desc"><b>Scripting &amp; data</b> — automation, database-backed tools, applied problem-solving</span>
+        <span class="iface-tags">Python, SQL</span>
+      </div>
+      <div class="iface-row">
+        <span class="iface-name">Frontline support</span>
+        <span class="iface-desc"><b>Working under pressure</b> — fast-paced troubleshooting, clear communication, ownership</span>
+        <span class="iface-tags">1.5 yrs frontline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h">Projects</h2>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Enterprise Segmentation &amp; Inter-VLAN Routing</h3>
+          <span class="card-tag">networking</span>
+        </div>
+        <p>Multi-switch Packet Tracer lab covering VLAN segmentation, 802.1Q trunking, Rapid PVST, VTP server/client architecture, and inter-VLAN routing across an enterprise-style topology.</p>
+        <div class="card-stack"><span>VLANs</span><span>Trunking</span><span>VTP</span><span>RPVST</span></div>
+        <a class="card-link" href="https://github.com/Mustansirlok/Cisco-Enterprise-Network-Segmentation-and-InterVLAN-Routing" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Enterprise Networking Labs</h3>
+          <span class="card-tag">networking</span>
+        </div>
+        <p>A growing collection of Cisco Packet Tracer labs implementing static routing, RIP dynamic routing, VLAN segmentation, trunking, VTP, RPVST, and inter-VLAN routing.</p>
+        <div class="card-stack"><span>Static &amp; RIP</span><span>VLANs</span><span>Trunking</span></div>
+        <a class="card-link" href="https://github.com/Mustansirlok/Enterprise-Networking-Labs-Using-Cisco" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Dynamic Menu System</h3>
+          <span class="card-tag">sysadmin</span>
+        </div>
+        <p>An interactive text-based Bash admin console for Linux — user management, service control, and log inspection from a single menu-driven interface.</p>
+        <div class="card-stack"><span>Bash</span><span>Linux</span></div>
+        <a class="card-link" href="https://github.com/Mustansirlok/Dynamic-Menu-System-Linux" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Netflix Recommendation Engine</h3>
+          <span class="card-tag">applied dev</span>
+        </div>
+        <p>A Flask web app that recommends titles based on content type, duration, audience, genre, and special criteria like new, popular, or award-winning.</p>
+        <div class="card-stack"><span>Flask</span><span>Python</span></div>
+        <a class="card-link" href="https://github.com/Mustansirlok/Recommendation-system-Only-on-Netflix-" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Sage Cafe &amp; Pantry — NFC Ordering System</h3>
+          <span class="card-tag">deployed</span>
+        </div>
+        <p>Production NFC table-card system for a two-location cafe brand: mobile-first customer pages, branch-specific routing, and a password-protected admin dashboard with live per-asset kill switches.</p>
+        <div class="card-stack"><span>Vercel</span><span>Admin dashboard</span><span>Live deployment</span></div>
+        <span class="card-link" style="color:var(--text-2);">Private client project — case study on request</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="homelab">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h">Home Lab</h2>
+    </div>
+    <div class="lab-layout">
+      <div>
+        <p style="color:var(--text-1); font-size:15px; line-height:1.75; margin-bottom:8px;">
+          A virtualized Active Directory environment built to practice the systems side of enterprise IT, not just the network side. A Windows Server VM runs as a domain controller with AD DS, DNS, and DHCP; client VMs join the domain and are organized into OUs with Group Policy pushing baseline settings.
+        </p>
+        <p style="color:var(--text-1); font-size:15px; line-height:1.75;">
+          It's the same skill set behind most helpdesk tickets — resetting locked accounts, troubleshooting a GPO that didn't apply, tracing why a client can't resolve the domain — practiced against a real domain instead of a diagram.
+        </p>
+        <div class="lab-specs">
+          <div class="spec"><div class="k">Platform</div><div class="v">Windows Server (VM)</div></div>
+          <div class="spec"><div class="k">Directory</div><div class="v">AD DS</div></div>
+          <div class="spec"><div class="k">Policy</div><div class="v">OUs &amp; GPOs</div></div>
+          <div class="spec"><div class="k">Services</div><div class="v">DNS / DHCP</div></div>
+        </div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#2C3A47"/>
+            </marker>
+          </defs>
+          <!-- Domain controller -->
+          <rect x="140" y="16" width="140" height="40" rx="6" fill="#0F2E2B" stroke="#4FD1C5"/>
+          <text x="210" y="34" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#4FD1C5">Domain Controller</text>
+          <text x="210" y="48" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8FA0AD">AD DS · DNS · DHCP</text>
+
+          <line x1="210" y1="56" x2="210" y2="92" stroke="#2C3A47" marker-end="url(#arrow)"/>
+
+          <!-- OU container -->
+          <rect x="150" y="94" width="120" height="30" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="210" y="114" text-anchor="middle" font-family="JetBrains Mono" font-size="10.5" fill="#E6EDF3">Group Policy</text>
+
+          <line x1="210" y1="124" x2="80" y2="160" stroke="#2C3A47" marker-end="url(#arrow)"/>
+          <line x1="210" y1="124" x2="210" y2="160" stroke="#2C3A47" marker-end="url(#arrow)"/>
+          <line x1="210" y1="124" x2="340" y2="160" stroke="#2C3A47" marker-end="url(#arrow)"/>
+
+          <!-- OUs -->
+          <rect x="20" y="162" width="120" height="42" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="80" y="182" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F0A868">OU: Staff</text>
+          <text x="80" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8FA0AD">2 users</text>
+
+          <rect x="150" y="162" width="120" height="42" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="210" y="182" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F0A868">OU: IT</text>
+          <text x="210" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8FA0AD">admin account</text>
+
+          <rect x="280" y="162" width="120" height="42" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="340" y="182" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F0A868">OU: Workstations</text>
+          <text x="340" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8FA0AD">client VMs</text>
+
+          <line x1="80" y1="204" x2="80" y2="236" stroke="#2C3A47" marker-end="url(#arrow)"/>
+          <line x1="210" y1="204" x2="210" y2="236" stroke="#2C3A47" marker-end="url(#arrow)"/>
+          <line x1="340" y1="204" x2="340" y2="236" stroke="#2C3A47" marker-end="url(#arrow)"/>
+
+          <rect x="30" y="238" width="100" height="34" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="80" y="259" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#8FA0AD">client-01</text>
+
+          <rect x="160" y="238" width="100" height="34" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="210" y="259" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#8FA0AD">client-02</text>
+
+          <rect x="290" y="238" width="100" height="34" rx="6" fill="#161D26" stroke="#2C3A47"/>
+          <text x="340" y="259" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#8FA0AD">client-03</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h">Experience</h2>
+    </div>
+    <div class="rt-table">
+      <div class="rt-head"><span>period</span><span>role</span><span>duration</span></div>
+      <div class="rt-row">
+        <span class="rt-dest">2024–2026</span>
+        <div class="rt-via">
+          <b>Tim Hortons — Member</b>
+          <p>Diagnosed and resolved POS system issues to maintain operational uptime, troubleshooting hardware and software under high-pressure, high-volume conditions while collaborating with the team to keep operations running smoothly.</p>
+        </div>
+        <span class="rt-metric">1 yr 7 mo</span>
+      </div>
+      <div class="rt-row">
+        <span class="rt-dest">2024</span>
+        <div class="rt-via">
+          <b>Loyalist College — Representative</b>
+          <p>Primary liaison between students and faculty. Simplified complex IT concepts for classmates, organized study sessions, and worked with faculty to clarify coursework — early reps for translating technical ideas into plain language.</p>
+        </div>
+        <span class="rt-metric">4 mo</span>
+      </div>
+      <div class="rt-row">
+        <span class="rt-dest">2023–2025</span>
+        <div class="rt-via">
+          <b>Loyalist College — Computer Systems Technician Diploma</b>
+          <p>Dean's List. Foundation in networking, troubleshooting, and system administration; now building on it with CCNA study and self-directed lab work.</p>
+        </div>
+        <span class="rt-metric">Dean's List</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-panel">
+      <div class="eyebrow" style="justify-content:center; margin-bottom:16px;"><span class="dot"></span> connection available</div>
+      <h2>Let's get a link established.</h2>
+      <p>Looking for entry-level IT Support and Network Technician roles in the GTA. Open to conversations, referrals, and opportunities.</p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:mustansirlokhandwala@loyalistcollege.com">Email me ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/mustansirlokhandwala-362b562b0" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/Mustansirlok" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Mustansir Lokhandwala · North York, ON</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
